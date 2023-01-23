@@ -1,0 +1,69 @@
+- Command line arguments
+    - Positional
+        - 1: Port - The TCP port to listen for requests on, default value = 8080
+- Listen on cfg.port for incoming TCP connections
+- Start new thread to handle each TCP connections
+    - Version
+        - First line of request/response
+        - If not present, assume HTTP 0.9
+    - Date/time
+        - Could use httpdate crate, which converts between HTTP dates and std::time::SystemTimee
+        - Could parse it manually (leaning this way)
+    - Parse request
+        - Example GET request headers:
+            GET /rfc/rfc1945 HTTP/1.1
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: en-US,en;q=0.9
+            Cache-Control: max-age=0
+            Connection: keep-alive
+            Host: www.rfc-editor.org
+            Sec-Fetch-Dest: document
+            Sec-Fetch-Mode: navigate
+            Sec-Fetch-Site: same-origin
+            Sec-Fetch-User: ?1
+            Upgrade-Insecure-Requests: 1
+            User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.55
+            sec-ch-ua: "Not_A Brand";v="99", "Microsoft Edge";v="109", "Chromium";v="109"
+            sec-ch-ua-mobile: ?0
+            sec-ch-ua-platform: "Windows"
+
+            GET / HTTP/1.1
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Upgrade-Insecure-Requests: 1
+            User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.61
+        - Example PUT request headers:
+            
+        - Example PUT body:
+            custname=Sam+Smith&custtel=111-222-3333&custemail=ssmith%40company.com&size=medium&topping=bacon&topping=cheese&topping=onion&delivery=12%3A30&comments=Leave+on+front+doorstep.
+    - Send response
+        - Example response headers:
+            HTTP/1.1 200 OK
+            Date: Mon, 23 Jan 2023 00:47:14 GMT
+            Server: Apache
+            X-Powered-By: PHP/7.4.33
+            Vary: Accept-Encoding
+            Content-Encoding: gzip
+            Strict-Transport-Security: max-age=31536000; includeSubDomains
+            X-Frame-Options: SAMEORIGIN
+            X-Xss-Protection: 1; mode=block
+            X-Content-Type-Options: nosniff
+            Content-Length: 45064
+            Keep-Alive: timeout=1, max=10
+            Connection: Keep-Alive
+            Content-Type: text/html; charset=UTF-8
+
+            HTTP/1.1 301 Moved Permanently
+            Location: http://www.google.com/
+            Content-Type: text/html; charset=UTF-8
+            Cross-Origin-Opener-Policy-Report-Only: same-origin-allow-popups; report-to="gws"
+            Report-To: {"group":"gws","max_age":2592000,"endpoints":[{"url":"https://csp.withgoogle.com/csp/report-to/gws/other"}]}
+            Permissions-Policy: unload=()
+            Origin-Trial: AqRrpS1jM/HOs1rGR0CnXerKEP/QFz7qj9ApDSZqAO+0U+KcT/h/lxA6akW4ar0kT0V1bw5MD4t8O7L7OFwM5gUAAABfeyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGUuY29tOjQ0MyIsImZlYXR1cmUiOiJQZXJtaXNzaW9uc1BvbGljeVVubG9hZCIsImV4cGlyeSI6MTY3ODIzMzU5OX0=
+            Date: Sun, 22 Jan 2023 16:01:45 GMT
+            Expires: Tue, 21 Feb 2023 16:01:45 GMT
+            Cache-Control: public, max-age=2592000
+            Server: gws
+            Content-Length: 219
+            X-XSS-Protection: 0
+            X-Frame-Options: SAMEORIGIN
