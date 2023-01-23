@@ -9,6 +9,11 @@
     - Date/time
         - Could use httpdate crate, which converts between HTTP dates and std::time::SystemTimee
         - Could parse it manually (leaning this way)
+    - Header
+        - Optional
+    - Entity body
+        - Optional
+        - Separated from headers by blank line (nothing preceding CRLF)
     - Parse request
         - Example GET request headers:
             GET /rfc/rfc1945 HTTP/1.1
